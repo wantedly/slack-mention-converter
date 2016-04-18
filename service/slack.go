@@ -1,9 +1,13 @@
 package service
 
 import (
+	"encoding/csv"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/jmoiron/jsonq"
@@ -12,12 +16,19 @@ import (
 const (
 	// SlackUserListURL represents users.list Slack API endpoint (https://api.slack.com/methods/users.list)
 	SlackUserListURL = "https://slack.com/api/users.list"
+	// SlackUserCachePath is the file path to store slack users ids and names as csv
+	SlackUserCachePath = "data/slack_users.csv"
 )
 
 // SlackUser stores slack user name and id
 type SlackUser struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
+}
+
+func cacheFilePath() string {
+	curDir, _ := os.Getwd()
+	return filepath.Join(curDir, "..", SlackUserCachePath)
 }
 
 // NewSlackUser creates new SlackUser instance
@@ -29,12 +40,62 @@ func NewSlackUser(id string, name string) SlackUser {
 }
 
 // ListSlackUsers returns slack user list
-func ListSlackUsers() []SlackUser {
-	requestURL := SlackUserListURL + "?token=" // TODO(awakia) add slack token
+func ListSlackUsers() ([]SlackUser, error) {
+	cached, err := getSlackUsersFromCache()
+	if len(cached) > 0 {
+		return cached, err
+	}
+	fetched, err := fetchSlackUsers()
+	putErr := putSlackUsersToCache(fetched)
+
+	if putErr != nil {
+		log.Println(putErr)
+	}
+	return fetched, err
+}
+
+func getSlackUsersFromCache() ([]SlackUser, error) {
+	file, err := os.Open(cacheFilePath())
+	if err != nil {
+		return []SlackUser{}, err
+	}
+	defer file.Close()
+	reader := csv.NewReader(file)
+
+	var res []SlackUser
+	for {
+		record, err := reader.Read() // 1行読み出す
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			return res, err
+		}
+		res = append(res, NewSlackUser(record[0], record[1]))
+	}
+	return res, nil
+}
+
+func putSlackUsersToCache(slackUsers []SlackUser) error {
+	file, err := os.OpenFile(cacheFilePath(), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	writer := csv.NewWriter(file)
+	log.Println(len(slackUsers))
+
+	for _, user := range slackUsers {
+		writer.Write([]string{user.ID, user.Name})
+	}
+	writer.Flush()
+	return nil
+}
+
+func fetchSlackUsers() ([]SlackUser, error) {
+	requestURL := SlackUserListURL + "?token=" + os.Getenv("SLACK_TOKEN")
 	resp, err := http.Get(requestURL)
 	if err != nil {
-		log.Println(err)
-		return []SlackUser{}
+		return []SlackUser{}, err
 	}
 	defer resp.Body.Close()
 
@@ -53,5 +114,5 @@ func ListSlackUsers() []SlackUser {
 		res = append(res, NewSlackUser(id, name))
 	}
 
-	return res
+	return res, nil
 }
