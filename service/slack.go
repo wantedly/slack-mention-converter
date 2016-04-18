@@ -45,13 +45,7 @@ func ListSlackUsers() ([]SlackUser, error) {
 	if len(cached) > 0 {
 		return cached, err
 	}
-	fetched, err := fetchSlackUsers()
-	putErr := putSlackUsersToCache(fetched)
-
-	if putErr != nil {
-		log.Println(putErr)
-	}
-	return fetched, err
+	return fetchSlackUsers()
 }
 
 func getSlackUsersFromCache() ([]SlackUser, error) {
@@ -114,5 +108,9 @@ func fetchSlackUsers() ([]SlackUser, error) {
 		res = append(res, NewSlackUser(id, name))
 	}
 
+	putErr := putSlackUsersToCache(res)
+	if putErr != nil {
+		log.Println(putErr)
+	}
 	return res, nil
 }
