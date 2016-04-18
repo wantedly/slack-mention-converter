@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/csv"
 	"encoding/json"
+	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -37,6 +38,27 @@ func NewSlackUser(id string, name string) SlackUser {
 		ID:   id,
 		Name: name,
 	}
+}
+
+// GetSlackUser returns slack user by its id
+func GetSlackUser(id string) (SlackUser, error) {
+	slackUsers, err := getSlackUsersFromCache()
+	if err != nil {
+		return SlackUser{}, err
+	}
+	for _, user := range slackUsers {
+		if user.ID == id {
+			return user, nil
+		}
+	}
+
+	slackUsers, err = fetchSlackUsers()
+	for _, user := range slackUsers {
+		if user.ID == id {
+			return user, nil
+		}
+	}
+	return SlackUser{}, errors.New("Slack id not found")
 }
 
 // ListSlackUsers returns slack user list
