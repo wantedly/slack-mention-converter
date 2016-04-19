@@ -32,7 +32,7 @@ func (c *RegisterCommand) Run(args []string) int {
 		log.Println(err)
 		return 1
 	}
-	fmt.Printf("user %v added", user)
+	fmt.Printf("user %v added.", user)
 
 	return 0
 }

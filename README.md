@@ -7,8 +7,10 @@ Convert login_name or account_name to slack mention format.
 The most simple example usage is
 
 ```
-$ slack-mention-converter register <your_login_name> <your_slack_name>
-$ slack-mention-converter ToSlackMention <your_login_name>
+$ slack-mention-converter register your_login_name your_slack_name
+user your_login_name:@your_slack_name added.
+$ slack-mention-converter to-slack-mention your_login_name
+<@U02XXXXXX|your_slack_name>
 ```
 
 ## Usage

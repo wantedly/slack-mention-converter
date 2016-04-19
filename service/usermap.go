@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/csv"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -17,6 +18,10 @@ var (
 type User struct {
 	LoginName string
 	SlackName string
+}
+
+func (u User) String() string {
+	return fmt.Sprintf("%v:@%v", u.LoginName, u.SlackName)
 }
 
 func cacheFileUserMapPath() string {
