@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/wantedly/slack_mention_converter/service"
+	"github.com/wantedly/slack-mention-converter/service"
 )
 
 type RegisterCommand struct {

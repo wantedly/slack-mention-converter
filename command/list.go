@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/wantedly/slack_mention_converter/service"
+	"github.com/wantedly/slack-mention-converter/service"
 )
 
 type ListCommand struct {
@@ -24,7 +24,7 @@ func (c *ListCommand) Run(args []string) int {
 }
 
 func (c *ListCommand) Synopsis() string {
-	return "List mapping of <login_name> and <slack_name"
+	return "List mapping of <login_name> and <slack_name>"
 }
 
 func (c *ListCommand) Help() string {

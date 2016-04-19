@@ -5,14 +5,14 @@ import (
 	"log"
 	"strings"
 
-	"github.com/wantedly/slack_mention_converter/service"
+	"github.com/wantedly/slack-mention-converter/service"
 )
 
-type Slack_name_listCommand struct {
+type SlackNameListCommand struct {
 	Meta
 }
 
-func (c *Slack_name_listCommand) Run(args []string) int {
+func (c *SlackNameListCommand) Run(args []string) int {
 	users, err := service.ListSlackUsers()
 	if err != nil {
 		log.Println(err)
@@ -23,11 +23,11 @@ func (c *Slack_name_listCommand) Run(args []string) int {
 	return 0
 }
 
-func (c *Slack_name_listCommand) Synopsis() string {
+func (c *SlackNameListCommand) Synopsis() string {
 	return "List up slack users id and name mapping"
 }
 
-func (c *Slack_name_listCommand) Help() string {
+func (c *SlackNameListCommand) Help() string {
 	helpText := `
 
 `

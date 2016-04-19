@@ -1,4 +1,4 @@
 .DS_Store
 .env
-slack_mention_converter
+slack-mention-converter
 data

@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/mitchellh/cli"
-	"github.com/wantedly/slack_mention_converter/command"
+	"github.com/wantedly/slack-mention-converter/command"
 )
 
 func Commands(meta *command.Meta) map[string]cli.CommandFactory {
@@ -17,18 +17,18 @@ func Commands(meta *command.Meta) map[string]cli.CommandFactory {
 				Meta: *meta,
 			}, nil
 		},
-		"slack_name_list": func() (cli.Command, error) {
-			return &command.Slack_name_listCommand{
+		"slack-name-list": func() (cli.Command, error) {
+			return &command.SlackNameListCommand{
 				Meta: *meta,
 			}, nil
 		},
-		"to_slack_name": func() (cli.Command, error) {
-			return &command.To_slack_nameCommand{
+		"to-slack-name": func() (cli.Command, error) {
+			return &command.ToSlackNameCommand{
 				Meta: *meta,
 			}, nil
 		},
-		"to_slack_mention": func() (cli.Command, error) {
-			return &command.To_slack_mentionCommand{
+		"to-slack-mention": func() (cli.Command, error) {
+			return &command.ToSlackMentionCommand{
 				Meta: *meta,
 			}, nil
 		},

@@ -5,14 +5,14 @@ import (
 	"log"
 	"strings"
 
-	"github.com/wantedly/slack_mention_converter/service"
+	"github.com/wantedly/slack-mention-converter/service"
 )
 
-type To_slack_nameCommand struct {
+type ToSlackNameCommand struct {
 	Meta
 }
 
-func (c *To_slack_nameCommand) Run(args []string) int {
+func (c *ToSlackNameCommand) Run(args []string) int {
 	var loginName string
 	if len(args) == 1 {
 		loginName = args[0]
@@ -30,11 +30,11 @@ func (c *To_slack_nameCommand) Run(args []string) int {
 	return 0
 }
 
-func (c *To_slack_nameCommand) Synopsis() string {
+func (c *ToSlackNameCommand) Synopsis() string {
 	return "Get slack name from login name"
 }
 
-func (c *To_slack_nameCommand) Help() string {
+func (c *ToSlackNameCommand) Help() string {
 	helpText := `
 
 `

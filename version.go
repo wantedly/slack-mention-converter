@@ -1,6 +1,6 @@
 package main
 
-const Name string = "slack_mention_converter"
+const Name string = "slack-mention-converter"
 const Version string = "0.1.0"
 
 // GitCommit describes latest commit hash.

@@ -5,14 +5,14 @@ import (
 	"log"
 	"strings"
 
-	"github.com/wantedly/slack_mention_converter/service"
+	"github.com/wantedly/slack-mention-converter/service"
 )
 
-type To_slack_mentionCommand struct {
+type ToSlackMentionCommand struct {
 	Meta
 }
 
-func (c *To_slack_mentionCommand) Run(args []string) int {
+func (c *ToSlackMentionCommand) Run(args []string) int {
 	var loginName, slackName string
 	if len(args) == 1 {
 		loginName = args[0]
@@ -37,11 +37,11 @@ func (c *To_slack_mentionCommand) Run(args []string) int {
 	return 0
 }
 
-func (c *To_slack_mentionCommand) Synopsis() string {
+func (c *ToSlackMentionCommand) Synopsis() string {
 	return "Get slack mention format from login name"
 }
 
-func (c *To_slack_mentionCommand) Help() string {
+func (c *ToSlackMentionCommand) Help() string {
 	helpText := `
 
 `

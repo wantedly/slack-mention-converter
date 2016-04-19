@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/mitchellh/cli"
-	"github.com/wantedly/slack_mention_converter/command"
+	"github.com/wantedly/slack-mention-converter/command"
 )
 
 func Run(args []string) int {
