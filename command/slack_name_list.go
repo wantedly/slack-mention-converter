@@ -24,7 +24,7 @@ func (c *Slack_name_listCommand) Run(args []string) int {
 }
 
 func (c *Slack_name_listCommand) Synopsis() string {
-	return ""
+	return "List up slack users id and name mapping"
 }
 
 func (c *Slack_name_listCommand) Help() string {
