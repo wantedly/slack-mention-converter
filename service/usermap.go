@@ -21,7 +21,7 @@ type User struct {
 
 func cacheFileUserMapPath() string {
 	curDir, _ := os.Getwd()
-	return filepath.Join(curDir, "..", UserMapCachePath)
+	return filepath.Join(curDir, UserMapCachePath)
 }
 
 // NewUser creates new UserMap instance
@@ -63,7 +63,7 @@ func AddUser(user User) error {
 func ListUsers() ([]User, error) {
 	file, err := os.Open(cacheFileUserMapPath())
 	if err != nil {
-		return []User{}, err
+		return []User{}, nil
 	}
 	defer file.Close()
 	reader := csv.NewReader(file)

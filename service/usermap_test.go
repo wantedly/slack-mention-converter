@@ -27,8 +27,8 @@ func teardown() {
 func TestUserFlow(t *testing.T) {
 	setup()
 	users, err := ListUsers()
-	if err == nil {
-		t.Errorf("no such file or directory error should be rised")
+	if err != nil {
+		t.Errorf("%v", err)
 	}
 	if len(users) != 0 {
 		t.Fatalf("0 users should be present in initial state")
