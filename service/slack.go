@@ -112,7 +112,11 @@ func putSlackUsersToCache(slackUsers []SlackUser) error {
 }
 
 func fetchSlackUsers() ([]SlackUser, error) {
-	requestURL := SlackUserListURL + "?token=" + os.Getenv("SLACK_TOKEN")
+	token := os.Getenv("SLACK_TOKEN")
+	if token == "" {
+		log.Fatalf("You need to pass SLACK_TOKEN as environment variable.")
+	}
+	requestURL := SlackUserListURL + "?token=" + token
 	resp, err := http.Get(requestURL)
 	if err != nil {
 		return []SlackUser{}, err
