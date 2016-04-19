@@ -40,21 +40,21 @@ func NewSlackUser(id string, name string) SlackUser {
 	}
 }
 
-// GetSlackUser returns slack user by its id
-func GetSlackUser(id string) (SlackUser, error) {
+// GetSlackUser returns slack user by its name
+func GetSlackUser(name string) (SlackUser, error) {
 	slackUsers, err := getSlackUsersFromCache()
 	if err != nil {
 		return SlackUser{}, err
 	}
 	for _, user := range slackUsers {
-		if user.ID == id {
+		if user.Name == name {
 			return user, nil
 		}
 	}
 
 	slackUsers, err = fetchSlackUsers()
 	for _, user := range slackUsers {
-		if user.ID == id {
+		if user.Name == name {
 			return user, nil
 		}
 	}
