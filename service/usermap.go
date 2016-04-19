@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-const (
+var (
 	// UserMapCachePath is the file path to store login name and slack name pairs as csv
 	UserMapCachePath = "data/user_map.csv"
 )

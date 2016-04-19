@@ -1,13 +1,34 @@
 package service
 
 import (
+	"crypto/rand"
+	"fmt"
+	"os"
+	"path/filepath"
 	"testing"
 )
 
+func randomString() string {
+	b := make([]byte, 8)
+	rand.Read(b)
+	return fmt.Sprintf("%x", b)
+}
+
+func setup() {
+	tmpdir := fmt.Sprintf("tmp/%v", randomString())
+	os.MkdirAll(filepath.Join("..", tmpdir), 0755)
+	UserMapCachePath = tmpdir + "/user_map.csv"
+}
+
+func teardown() {
+	os.RemoveAll(filepath.Join("..", "tmp"))
+}
+
 func TestUserFlow(t *testing.T) {
+	setup()
 	users, err := ListUsers()
 	if err == nil {
-		t.Errorf("no such file or directory error should be present but not")
+		t.Errorf("no such file or directory error should be rised")
 	}
 	if len(users) != 0 {
 		t.Fatalf("0 users should be present in initial state")
@@ -50,4 +71,5 @@ func TestUserFlow(t *testing.T) {
 	if (user != User{"awakia", "nao"}) {
 		t.Errorf("user should be :%#v, but: %#v", User{"awakia", "nao"}, user)
 	}
+	teardown()
 }
