@@ -1,10 +1,48 @@
 # slack_mention_converter
 
-
-
 ## Description
 
+Convert login_name or account_name to slack mention format.
+
+The most simple example usage is
+
+```
+$ slack_mention_converter register <your_login_name> <your_slack_name>
+$ slack_mention_converter to_slack_mention <your_login_name>
+```
+
 ## Usage
+
+```
+usage: slack_mention_converter [--version] [--help] <command> [<args>]
+
+Available commands are:
+    list                List mapping of <login_name> and <slack_name
+    register            Register LoginName and SlackName mapping
+    slack_name_list     List up slack users id and name mapping
+    to_slack_mention    Get slack mention format from login name
+    to_slack_name       Get slack name from login name
+    version             Print slack_mention_converter version and quit
+```
+
+## Use by Docker
+
+### Build
+
+```
+docker build -t quay.io/wantedly/slack_mention_converter .
+```
+
+### Run
+
+```
+docker run --rm \
+  -e SLACK_TOKEN=<slack token get by https://api.slack.com/docs/oauth-test-tokens>  \
+  -v data:/data \
+  quay.io/wantedly/slack_mention_converter \
+  <command>
+```
+
 
 ## Install
 
