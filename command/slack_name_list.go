@@ -1,7 +1,11 @@
 package command
 
 import (
+	"fmt"
+	"log"
 	"strings"
+
+	"github.com/wantedly/slack_mention_converter/service"
 )
 
 type Slack_name_listCommand struct {
@@ -9,7 +13,12 @@ type Slack_name_listCommand struct {
 }
 
 func (c *Slack_name_listCommand) Run(args []string) int {
-	// Write your code here
+	users, err := service.ListSlackUsers()
+	if err != nil {
+		log.Println(err)
+		return 1
+	}
+	fmt.Println(users)
 
 	return 0
 }

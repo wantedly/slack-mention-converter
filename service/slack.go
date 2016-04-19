@@ -29,7 +29,7 @@ type SlackUser struct {
 
 func cacheSlackUserFilePath() string {
 	curDir, _ := os.Getwd()
-	return filepath.Join(curDir, "..", SlackUserCachePath)
+	return filepath.Join(curDir, SlackUserCachePath)
 }
 
 // NewSlackUser creates new SlackUser instance
