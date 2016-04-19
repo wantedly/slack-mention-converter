@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -25,6 +26,10 @@ const (
 type SlackUser struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
+}
+
+func (u SlackUser) String() string {
+	return fmt.Sprintf("<@%v|%v>", u.ID, u.Name)
 }
 
 func cacheSlackUserFilePath() string {

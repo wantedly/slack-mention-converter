@@ -18,7 +18,9 @@ func (c *SlackNameListCommand) Run(args []string) int {
 		log.Println(err)
 		return 1
 	}
-	fmt.Println(users)
+	for _, user := range users {
+		fmt.Println(user)
+	}
 
 	return 0
 }

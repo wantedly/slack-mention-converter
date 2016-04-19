@@ -32,7 +32,7 @@ func (c *ToSlackMentionCommand) Run(args []string) int {
 	if err != nil {
 		log.Printf("%v. Slack Name: %v\n", err, slackName)
 	}
-	fmt.Printf("<@%v|%v>\n", slackUser.ID, slackName)
+	fmt.Println(slackUser)
 
 	return 0
 }
