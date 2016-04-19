@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eu
+
+GOOS=linux GOARCH=amd64 go build -o bin/slack_mention_converter_linux_amd64
