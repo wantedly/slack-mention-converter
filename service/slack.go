@@ -27,7 +27,7 @@ type SlackUser struct {
 	Name string `json:"name"`
 }
 
-func cacheFilePath() string {
+func cacheSlackUserFilePath() string {
 	curDir, _ := os.Getwd()
 	return filepath.Join(curDir, "..", SlackUserCachePath)
 }
@@ -71,7 +71,7 @@ func ListSlackUsers() ([]SlackUser, error) {
 }
 
 func getSlackUsersFromCache() ([]SlackUser, error) {
-	file, err := os.Open(cacheFilePath())
+	file, err := os.Open(cacheSlackUserFilePath())
 	if err != nil {
 		return []SlackUser{}, err
 	}
@@ -80,7 +80,7 @@ func getSlackUsersFromCache() ([]SlackUser, error) {
 
 	var res []SlackUser
 	for {
-		record, err := reader.Read() // 1行読み出す
+		record, err := reader.Read()
 		if err == io.EOF {
 			break
 		} else if err != nil {
@@ -92,13 +92,12 @@ func getSlackUsersFromCache() ([]SlackUser, error) {
 }
 
 func putSlackUsersToCache(slackUsers []SlackUser) error {
-	file, err := os.OpenFile(cacheFilePath(), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	file, err := os.OpenFile(cacheSlackUserFilePath(), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
 	writer := csv.NewWriter(file)
-	log.Println(len(slackUsers))
 
 	for _, user := range slackUsers {
 		writer.Write([]string{user.ID, user.Name})
