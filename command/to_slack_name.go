@@ -24,6 +24,7 @@ func (c *ToSlackNameCommand) Run(args []string) int {
 	user, err := service.GetUser(loginName)
 	if err != nil {
 		log.Printf("Login name '%v' not found\n", loginName)
+		return 1
 	}
 	fmt.Printf("@%v\n", user.SlackName)
 

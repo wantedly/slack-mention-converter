@@ -31,6 +31,7 @@ func (c *ToSlackMentionCommand) Run(args []string) int {
 	slackUser, err := service.GetSlackUser(slackName)
 	if err != nil {
 		log.Printf("%v. Slack Name: %v\n", err, slackName)
+		return 1
 	}
 	fmt.Println(slackUser)
 
