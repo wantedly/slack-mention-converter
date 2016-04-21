@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/mitchellh/cli"
@@ -9,6 +10,7 @@ import (
 )
 
 func Run(args []string) int {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	// Meta-option for executables.
 	// It defines output color and its stdout/stderr stream.
