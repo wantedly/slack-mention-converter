@@ -1,5 +1,16 @@
 # slack-mention-converter
 
+## When you send pull request
+
+Don't forget to run
+
+```
+$ script/build
+```
+
+and add `bin/slack-mention-converter-linux-amd64` to the commit.
+
+
 ## Description
 
 Convert login_name or account_name to slack mention format.
