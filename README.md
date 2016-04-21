@@ -39,7 +39,7 @@ docker build -t quay.io/wantedly/slack-mention-converter .
 
 ```
 docker run --rm \
-  -e SLACK_TOKEN=<slack token get by https://api.slack.com/docs/oauth-test-tokens>  \
+  -e SLACK_API_TOKEN=<slack token get by https://api.slack.com/docs/oauth-test-tokens>  \
   -v data:/data \
   quay.io/wantedly/slack-mention-converter \
   <command>
