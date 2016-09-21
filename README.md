@@ -13,7 +13,7 @@ and add `bin/slack-mention-converter-linux-amd64` to the commit.
 
 ## Description
 
-Convert login_name or account_name to slack mention format.
+Convert login_name or account_name to slack mention format. Mappings of login_name and account_name are stored at Amazon DynamoDB.
 
 The most simple example usage is
 
@@ -25,6 +25,14 @@ $ slack-mention-converter to-slack-mention your_login_name
 ```
 
 ## Usage
+
+### AWS configuration
+
+2 DynamoDB tables named `SlackNames` and `SlackIDs` must be created.
+
+In addition, `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` must be set beforehand at your shell. This IAM account must be allowed to read/write the DynamoDB tables above.
+
+### Command usage
 
 ```
 usage: slack-mention-converter [--version] [--help] <command> [<args>]

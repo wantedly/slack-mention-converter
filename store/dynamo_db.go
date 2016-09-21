@@ -40,10 +40,7 @@ func (d *DynamoDB) GetUser(loginName string) (*models.User, error) {
 		return nil, err
 	}
 
-	return &models.User{
-		LoginName: loginName,
-		SlackName: *resp.Item["SlackName"].S,
-	}, nil
+	return models.NewUser(loginName, *resp.Item["SlackName"].S), nil
 }
 
 func (d *DynamoDB) AddUser(user *models.User) error {
