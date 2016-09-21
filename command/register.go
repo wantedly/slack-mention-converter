@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/wantedly/slack-mention-converter/models"
@@ -31,9 +30,10 @@ func (c *RegisterCommand) Run(args []string) int {
 
 	var s store.Store
 
-	dir, _ := os.Getwd()
-	dir = filepath.Join(dir, "data")
-	s = store.NewCSV(dir)
+	// dir, _ := os.Getwd()
+	// dir = filepath.Join(dir, "data")
+	// s = store.NewCSV(dir)
+	s = store.NewDynamoDB()
 
 	user := models.NewUser(loginName, slackName)
 	err := service.AddUser(s, user)

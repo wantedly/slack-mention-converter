@@ -2,5 +2,11 @@ package: github.com/wantedly/slack-mention-converter
 import:
 - package: github.com/jmoiron/jsonq
 - package: github.com/mitchellh/cli
+- package: github.com/aws/aws-sdk-go
+  version: v1.4.11
+  subpackages:
+  - aws
+  - aws/session
+  - aws/service/dynamodb
 testImport:
 - package: github.com/joho/godotenv

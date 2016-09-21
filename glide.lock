@@ -1,8 +1,14 @@
-hash: c86906e3da587e1569a222954181e8889dc01f14c48d54b937f04b4ebee552e3
-updated: 2016-09-20T16:37:33.712524478+09:00
+hash: 2e387e83945a62be20fae0d1a6205db3c5e1105c6fa1b770db330c34afabb452
+updated: 2016-09-21T11:37:48.494296609+09:00
 imports:
 - name: github.com/armon/go-radix
   version: 4239b77079c7b5d1243b7b4736304ce8ddb6f0f2
+- name: github.com/aws/aws-sdk-go
+  version: 7a81396c57134038e554b2ac86be4653018b20f9
+  subpackages:
+  - aws
+  - aws/service/dynamodb
+  - aws/session
 - name: github.com/bgentry/speakeasy
   version: 36e9cfdd690967f4f690c6edcc9ffacd006014a0
 - name: github.com/jmoiron/jsonq

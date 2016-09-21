@@ -3,8 +3,6 @@ package command
 import (
 	"fmt"
 	"log"
-	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/wantedly/slack-mention-converter/service"
@@ -26,9 +24,10 @@ func (c *ToSlackMentionCommand) Run(args []string) int {
 
 	var s store.Store
 
-	dir, _ := os.Getwd()
-	dir = filepath.Join(dir, "data")
-	s = store.NewCSV(dir)
+	// dir, _ := os.Getwd()
+	// dir = filepath.Join(dir, "data")
+	// s = store.NewCSV(dir)
+	s = store.NewDynamoDB()
 
 	user, err := service.GetUser(s, loginName)
 	if err != nil {
