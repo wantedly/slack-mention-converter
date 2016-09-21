@@ -30,6 +30,20 @@ $ slack-mention-converter to-slack-mention your_login_name
 
 2 DynamoDB tables named `SlackNames` and `SlackIDs` must be created.
 
+#### `SlackNames` table
+
+|Key|Type| |
+|---|----|-|
+|LoginName|String|Primary key|
+|SlackName|String||
+
+#### `SlackIDs` table
+
+|Key|Type| |
+|---|----|-|
+|SlackName|String|Primary key|
+|SlackID|String||
+
 In addition, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` must be set at your shell. This IAM user/role must be allowed to read/write the DynamoDB tables above.
 
 ### Command usage
