@@ -2,23 +2,18 @@ package store
 
 import (
 	"encoding/csv"
-	"encoding/json"
 	"errors"
 	"io"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
-	"strconv"
 
-	"github.com/jmoiron/jsonq"
 	"github.com/wantedly/slack-mention-converter/models"
 )
 
 const (
-	slackUserListURL = "https://slack.com/api/users.list"
-	slackIDsName     = "slack_users.csv"
-	userMapName      = "user_map.csv"
+	slackIDsName = "slack_users.csv"
+	userMapName  = "user_map.csv"
 )
 
 type CSV struct {
@@ -166,34 +161,15 @@ func (c *CSV) putSlackUsersToCache(slackUsers []*models.SlackUser) error {
 
 func (c *CSV) fetchSlackUsers() ([]*models.SlackUser, error) {
 	token := os.Getenv("SLACK_API_TOKEN")
-	if token == "" {
-		log.Fatalf("You need to pass SLACK_API_TOKEN as environment variable.")
-	}
-	requestURL := slackUserListURL + "?token=" + token
-	resp, err := http.Get(requestURL)
+	users, err := models.RetrieveFromSlack(token)
 	if err != nil {
-		return []*models.SlackUser{}, err
-	}
-	defer resp.Body.Close()
-
-	data := map[string]interface{}{}
-	dec := json.NewDecoder(resp.Body)
-	dec.Decode(&data)
-	jq := jsonq.NewQuery(data)
-	arr, err := jq.Array("members")
-	if err != nil {
-		log.Println(err)
-	}
-	var res []*models.SlackUser
-	for i := 0; i < len(arr); i++ {
-		id, _ := jq.String("members", strconv.Itoa(i), "id")
-		name, _ := jq.String("members", strconv.Itoa(i), "name")
-		res = append(res, models.NewSlackUser(id, name))
+		return nil, err
 	}
 
-	putErr := c.putSlackUsersToCache(res)
+	putErr := c.putSlackUsersToCache(users)
 	if putErr != nil {
 		log.Println(putErr)
 	}
-	return res, nil
+
+	return users, nil
 }
