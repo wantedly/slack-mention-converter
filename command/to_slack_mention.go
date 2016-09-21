@@ -3,9 +3,12 @@ package command
 import (
 	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/wantedly/slack-mention-converter/service"
+	"github.com/wantedly/slack-mention-converter/store"
 )
 
 type ToSlackMentionCommand struct {
@@ -21,7 +24,13 @@ func (c *ToSlackMentionCommand) Run(args []string) int {
 		return 1
 	}
 
-	user, err := service.GetUser(loginName)
+	var s store.Store
+
+	dir, _ := os.Getwd()
+	dir = filepath.Join(dir, "data")
+	s = store.NewCSV(dir)
+
+	user, err := service.GetUser(s, loginName)
 	if err != nil {
 		slackName = loginName
 		log.Printf("Login name '%v' not found. Treat it as slack name\n", loginName)

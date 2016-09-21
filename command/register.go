@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/wantedly/slack-mention-converter/models"
 	"github.com/wantedly/slack-mention-converter/service"
+	"github.com/wantedly/slack-mention-converter/store"
 )
 
 type RegisterCommand struct {
@@ -27,8 +29,14 @@ func (c *RegisterCommand) Run(args []string) int {
 		return 1
 	}
 
+	var s store.Store
+
+	dir, _ := os.Getwd()
+	dir = filepath.Join(dir, "data")
+	s = store.NewCSV(dir)
+
 	user := models.NewUser(loginName, slackName)
-	err := service.AddUser(user)
+	err := service.AddUser(s, user)
 	if err != nil {
 		log.Println(err)
 		return 1
