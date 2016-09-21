@@ -9,4 +9,6 @@ type Store interface {
 	AddUser(user *models.User) error
 	ListUsers() ([]*models.User, error)
 	PutUsers(users []*models.User) error
+	GetSlackUser(name string) (*models.SlackUser, error)
+	ListSlackUsers() ([]*models.SlackUser, error)
 }

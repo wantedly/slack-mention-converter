@@ -85,3 +85,11 @@ func (d *DynamoDB) PutUsers(users []*models.User) error {
 
 	return nil
 }
+
+func (d *DynamoDB) GetSlackUser(name string) (*models.SlackUser, error) {
+	return nil, nil
+}
+
+func (d *DynamoDB) ListSlackUsers() ([]*models.SlackUser, error) {
+	return nil, nil
+}
