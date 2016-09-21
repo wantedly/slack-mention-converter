@@ -33,14 +33,14 @@ $ slack-mention-converter to-slack-mention your_login_name
 #### `SlackNames` table
 
 |Key|Type| |
-|---|----|-|
+|---|----|---|
 |LoginName|String|Primary key|
 |SlackName|String||
 
 #### `SlackIDs` table
 
 |Key|Type| |
-|---|----|-|
+|---|----|---|
 |SlackName|String|Primary key|
 |SlackID|String||
 
