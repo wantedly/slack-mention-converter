@@ -30,7 +30,7 @@ $ slack-mention-converter to-slack-mention your_login_name
 
 2 DynamoDB tables named `SlackNames` and `SlackIDs` must be created.
 
-In addition, `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` must be set beforehand at your shell. This IAM account must be allowed to read/write the DynamoDB tables above.
+In addition, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` must be set at your shell. This IAM user/role must be allowed to read/write the DynamoDB tables above.
 
 ### Command usage
 
@@ -59,7 +59,9 @@ $ make docker-build
 ```
 docker run --rm \
   -e SLACK_API_TOKEN=<slack token get by https://api.slack.com/docs/oauth-test-tokens>  \
-  -v data:/data \
+  -e AWS_ACCESS_KEY_ID=yourawsaccesskeyid \
+  -e AWS_SECRET_ACCESS_KEY=yourawssecretaccesskey \
+  -e AWS_REGION=ap-northeast-1 \
   quay.io/wantedly/slack-mention-converter \
   <command>
 ```
