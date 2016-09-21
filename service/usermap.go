@@ -3,10 +3,11 @@ package service
 import (
 	"encoding/csv"
 	"errors"
-	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+
+	"github.com/wantedly/slack-mention-converter/models"
 )
 
 var (
@@ -14,45 +15,27 @@ var (
 	UserMapCachePath = "data/user_map.csv"
 )
 
-// User stores login user name and slack user name
-type User struct {
-	LoginName string
-	SlackName string
-}
-
-func (u User) String() string {
-	return fmt.Sprintf("%v:@%v", u.LoginName, u.SlackName)
-}
-
 func cacheFileUserMapPath() string {
 	curDir, _ := os.Getwd()
 	return filepath.Join(curDir, UserMapCachePath)
 }
 
-// NewUser creates new UserMap instance
-func NewUser(loginName string, slackName string) User {
-	return User{
-		LoginName: loginName,
-		SlackName: slackName,
-	}
-}
-
 // GetUser returns user by login name
-func GetUser(loginName string) (User, error) {
+func GetUser(loginName string) (*models.User, error) {
 	users, err := ListUsers()
 	if err != nil {
-		return User{}, err
+		return &models.User{}, err
 	}
 	for _, user := range users {
 		if user.LoginName == loginName {
 			return user, nil
 		}
 	}
-	return User{}, errors.New("Such login name not found")
+	return &models.User{}, errors.New("Such login name not found")
 }
 
 // AddUser adds or replaces user
-func AddUser(user User) error {
+func AddUser(user *models.User) error {
 	users, _ := ListUsers()
 	for i := 0; i < len(users); i++ {
 		if users[i].LoginName == user.LoginName {
@@ -65,15 +48,15 @@ func AddUser(user User) error {
 }
 
 // ListUsers returns user list
-func ListUsers() ([]User, error) {
+func ListUsers() ([]*models.User, error) {
 	file, err := os.Open(cacheFileUserMapPath())
 	if err != nil {
-		return []User{}, nil
+		return []*models.User{}, nil
 	}
 	defer file.Close()
 	reader := csv.NewReader(file)
 
-	var res []User
+	var res []*models.User
 	for {
 		record, err := reader.Read()
 		if err == io.EOF {
@@ -81,12 +64,12 @@ func ListUsers() ([]User, error) {
 		} else if err != nil {
 			return res, err
 		}
-		res = append(res, NewUser(record[0], record[1]))
+		res = append(res, models.NewUser(record[0], record[1]))
 	}
 	return res, nil
 }
 
-func putUsers(users []User) error {
+func putUsers(users []*models.User) error {
 	file, err := os.OpenFile(cacheFileUserMapPath(), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return err

@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/wantedly/slack-mention-converter/models"
 	"github.com/wantedly/slack-mention-converter/service"
 )
 
@@ -26,7 +27,7 @@ func (c *RegisterCommand) Run(args []string) int {
 		return 1
 	}
 
-	user := service.NewUser(loginName, slackName)
+	user := models.NewUser(loginName, slackName)
 	err := service.AddUser(user)
 	if err != nil {
 		log.Println(err)
