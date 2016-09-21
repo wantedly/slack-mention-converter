@@ -52,11 +52,11 @@ func (c *CSV) AddUser(user *models.User) error {
 	for i := 0; i < len(users); i++ {
 		if users[i].LoginName == user.LoginName {
 			users[i] = user
-			return c.PutUsers(users)
+			return c.putUsers(users)
 		}
 	}
 	users = append(users, user)
-	return c.PutUsers(users)
+	return c.putUsers(users)
 }
 
 func (c *CSV) ListUsers() ([]*models.User, error) {
@@ -80,7 +80,7 @@ func (c *CSV) ListUsers() ([]*models.User, error) {
 	return res, nil
 }
 
-func (c *CSV) PutUsers(users []*models.User) error {
+func (c *CSV) putUsers(users []*models.User) error {
 	file, err := os.OpenFile(c.userMapPath(), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return err

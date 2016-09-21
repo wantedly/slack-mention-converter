@@ -79,16 +79,6 @@ func (d *DynamoDB) ListUsers() ([]*models.User, error) {
 	return users, nil
 }
 
-func (d *DynamoDB) PutUsers(users []*models.User) error {
-	for _, user := range users {
-		if err := d.AddUser(user); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (d *DynamoDB) refreshSlackIDs(token string) error {
 	users, err := models.RetrieveFromSlack(token)
 	if err != nil {
