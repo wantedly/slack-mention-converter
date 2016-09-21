@@ -18,6 +18,6 @@ func NewSlackUser(id string, name string) *SlackUser {
 	}
 }
 
-func (u SlackUser) String() string {
+func (u *SlackUser) String() string {
 	return fmt.Sprintf("<@%v|%v>", u.ID, u.Name)
 }
