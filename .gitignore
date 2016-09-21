@@ -2,3 +2,5 @@
 .env
 slack-mention-converter
 data
+
+/vendor

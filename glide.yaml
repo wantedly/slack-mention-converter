@@ -1,0 +1,6 @@
+package: github.com/wantedly/slack-mention-converter
+import:
+- package: github.com/jmoiron/jsonq
+- package: github.com/mitchellh/cli
+testImport:
+- package: github.com/joho/godotenv

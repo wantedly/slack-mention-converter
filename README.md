@@ -43,7 +43,7 @@ Available commands are:
 ### Build
 
 ```
-docker build -t quay.io/wantedly/slack-mention-converter .
+$ make docker-build
 ```
 
 ### Run
@@ -59,10 +59,12 @@ docker run --rm \
 
 ## Install
 
-To install, use `go get`:
+To install, use `go get` and `make`:
 
 ```bash
 $ go get -d github.com/wantedly/slack-mention-converter
+$ make
+$ make install
 ```
 
 ## Contribution
