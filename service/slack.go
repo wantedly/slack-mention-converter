@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -13,6 +12,7 @@ import (
 	"strconv"
 
 	"github.com/jmoiron/jsonq"
+	"github.com/wantedly/slack-mention-converter/models"
 )
 
 const (
@@ -22,34 +22,16 @@ const (
 	SlackUserCachePath = "data/slack_users.csv"
 )
 
-// SlackUser stores slack user name and id
-type SlackUser struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}
-
-func (u SlackUser) String() string {
-	return fmt.Sprintf("<@%v|%v>", u.ID, u.Name)
-}
-
 func cacheSlackUserFilePath() string {
 	curDir, _ := os.Getwd()
 	return filepath.Join(curDir, SlackUserCachePath)
 }
 
-// NewSlackUser creates new SlackUser instance
-func NewSlackUser(id string, name string) SlackUser {
-	return SlackUser{
-		ID:   id,
-		Name: name,
-	}
-}
-
 // GetSlackUser returns slack user by its name
-func GetSlackUser(name string) (SlackUser, error) {
+func GetSlackUser(name string) (*models.SlackUser, error) {
 	slackUsers, err := getSlackUsersFromCache()
 	if err != nil {
-		return SlackUser{}, err
+		return &models.SlackUser{}, err
 	}
 	for _, user := range slackUsers {
 		if user.Name == name {
@@ -63,11 +45,11 @@ func GetSlackUser(name string) (SlackUser, error) {
 			return user, nil
 		}
 	}
-	return SlackUser{}, errors.New("Slack id not found")
+	return &models.SlackUser{}, errors.New("Slack id not found")
 }
 
 // ListSlackUsers returns slack user list
-func ListSlackUsers() ([]SlackUser, error) {
+func ListSlackUsers() ([]*models.SlackUser, error) {
 	cached, err := getSlackUsersFromCache()
 	if len(cached) > 0 {
 		return cached, err
@@ -75,15 +57,15 @@ func ListSlackUsers() ([]SlackUser, error) {
 	return fetchSlackUsers()
 }
 
-func getSlackUsersFromCache() ([]SlackUser, error) {
+func getSlackUsersFromCache() ([]*models.SlackUser, error) {
 	file, err := os.Open(cacheSlackUserFilePath())
 	if err != nil {
-		return []SlackUser{}, err
+		return []*models.SlackUser{}, err
 	}
 	defer file.Close()
 	reader := csv.NewReader(file)
 
-	var res []SlackUser
+	var res []*models.SlackUser
 	for {
 		record, err := reader.Read()
 		if err == io.EOF {
@@ -91,12 +73,12 @@ func getSlackUsersFromCache() ([]SlackUser, error) {
 		} else if err != nil {
 			return res, err
 		}
-		res = append(res, NewSlackUser(record[0], record[1]))
+		res = append(res, models.NewSlackUser(record[0], record[1]))
 	}
 	return res, nil
 }
 
-func putSlackUsersToCache(slackUsers []SlackUser) error {
+func putSlackUsersToCache(slackUsers []*models.SlackUser) error {
 	file, err := os.OpenFile(cacheSlackUserFilePath(), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return err
@@ -111,7 +93,7 @@ func putSlackUsersToCache(slackUsers []SlackUser) error {
 	return nil
 }
 
-func fetchSlackUsers() ([]SlackUser, error) {
+func fetchSlackUsers() ([]*models.SlackUser, error) {
 	token := os.Getenv("SLACK_API_TOKEN")
 	if token == "" {
 		log.Fatalf("You need to pass SLACK_API_TOKEN as environment variable.")
@@ -119,7 +101,7 @@ func fetchSlackUsers() ([]SlackUser, error) {
 	requestURL := SlackUserListURL + "?token=" + token
 	resp, err := http.Get(requestURL)
 	if err != nil {
-		return []SlackUser{}, err
+		return []*models.SlackUser{}, err
 	}
 	defer resp.Body.Close()
 
@@ -131,11 +113,11 @@ func fetchSlackUsers() ([]SlackUser, error) {
 	if err != nil {
 		log.Println(err)
 	}
-	var res []SlackUser
+	var res []*models.SlackUser
 	for i := 0; i < len(arr); i++ {
 		id, _ := jq.String("members", strconv.Itoa(i), "id")
 		name, _ := jq.String("members", strconv.Itoa(i), "name")
-		res = append(res, NewSlackUser(id, name))
+		res = append(res, models.NewSlackUser(id, name))
 	}
 
 	putErr := putSlackUsersToCache(res)
