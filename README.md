@@ -1,19 +1,15 @@
 # slack-mention-converter
 
-## When you send pull request
+Convert login name or account name to Slack mention format.
 
-Don't forget to run
-
+```bash
+$ envchain wtd bin/slack-mention-converter to-slack-mention dtan4
+<@U02XXXXXX|dai>
 ```
-$ script/build
-```
-
-and add `bin/slack-mention-converter-linux-amd64` to the commit.
-
 
 ## Description
 
-Convert login_name or account_name to slack mention format. Mappings of login_name and account_name are stored at Amazon DynamoDB.
+Convert login name or account name to slack mention format. Mappings of login_name and account_name are stored at Amazon DynamoDB.
 
 The most simple example usage is
 
