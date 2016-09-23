@@ -1,5 +1,7 @@
 # slack-mention-converter
 
+[![Build Status](https://travis-ci.org/wantedly/slack-mention-converter.svg?branch=master)](https://travis-ci.org/wantedly/slack-mention-converter)
+
 Convert login name or account name to Slack mention format.
 
 ```bash
