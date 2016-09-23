@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.4
 
 ENTRYPOINT ["bin/slack-mention-converter"]
 
@@ -7,4 +7,4 @@ RUN apk --no-cache add ca-certificates
 
 VOLUME /data
 
-COPY bin/slack-mention-converter-linux-amd64 /bin/slack-mention-converter
+COPY bin/slack-mention-converter /bin/slack-mention-converter
