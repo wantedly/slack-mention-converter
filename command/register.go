@@ -6,7 +6,9 @@ import (
 	"os"
 	"strings"
 
+	"github.com/wantedly/slack-mention-converter/models"
 	"github.com/wantedly/slack-mention-converter/service"
+	"github.com/wantedly/slack-mention-converter/store"
 )
 
 type RegisterCommand struct {
@@ -26,8 +28,15 @@ func (c *RegisterCommand) Run(args []string) int {
 		return 1
 	}
 
-	user := service.NewUser(loginName, slackName)
-	err := service.AddUser(user)
+	var s store.Store
+
+	// dir, _ := os.Getwd()
+	// dir = filepath.Join(dir, "data")
+	// s = store.NewCSV(dir)
+	s = store.NewDynamoDB()
+
+	user := models.NewUser(loginName, slackName)
+	err := service.AddUser(s, user)
 	if err != nil {
 		log.Println(err)
 		return 1

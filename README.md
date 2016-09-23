@@ -13,7 +13,7 @@ and add `bin/slack-mention-converter-linux-amd64` to the commit.
 
 ## Description
 
-Convert login_name or account_name to slack mention format.
+Convert login_name or account_name to slack mention format. Mappings of login_name and account_name are stored at Amazon DynamoDB.
 
 The most simple example usage is
 
@@ -25,6 +25,28 @@ $ slack-mention-converter to-slack-mention your_login_name
 ```
 
 ## Usage
+
+### AWS configuration
+
+2 DynamoDB tables named `SlackNames` and `SlackIDs` must be created.
+
+#### `SlackNames` table
+
+|Key|Type| |
+|---|----|---|
+|LoginName|String|Primary key|
+|SlackName|String||
+
+#### `SlackIDs` table
+
+|Key|Type| |
+|---|----|---|
+|SlackName|String|Primary key|
+|SlackID|String||
+
+In addition, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION` must be set at your shell. This IAM user/role must be allowed to read/write the DynamoDB tables above.
+
+### Command usage
 
 ```
 usage: slack-mention-converter [--version] [--help] <command> [<args>]
@@ -51,7 +73,9 @@ $ make docker-build
 ```
 docker run --rm \
   -e SLACK_API_TOKEN=<slack token get by https://api.slack.com/docs/oauth-test-tokens>  \
-  -v data:/data \
+  -e AWS_ACCESS_KEY_ID=yourawsaccesskeyid \
+  -e AWS_SECRET_ACCESS_KEY=yourawssecretaccesskey \
+  -e AWS_REGION=ap-northeast-1 \
   quay.io/wantedly/slack-mention-converter \
   <command>
 ```

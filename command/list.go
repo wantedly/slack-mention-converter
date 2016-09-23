@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/wantedly/slack-mention-converter/service"
+	"github.com/wantedly/slack-mention-converter/store"
 )
 
 type ListCommand struct {
@@ -13,7 +14,14 @@ type ListCommand struct {
 }
 
 func (c *ListCommand) Run(args []string) int {
-	users, err := service.ListUsers()
+	var s store.Store
+
+	// dir, _ := os.Getwd()
+	// dir = filepath.Join(dir, "data")
+	// s = store.NewCSV(dir)
+	s = store.NewDynamoDB()
+
+	users, err := service.ListUsers(s)
 	if err != nil {
 		log.Println(err)
 		return 1
