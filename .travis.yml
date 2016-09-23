@@ -11,7 +11,7 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: make ci-docker-release
+  script: DOCKER_IMAGE_TAG=test make ci-docker-release
   on:
-    branch: master
+    branch: dtan4/test
     go: '1.7'
