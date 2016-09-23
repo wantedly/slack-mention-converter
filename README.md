@@ -5,7 +5,7 @@
 Convert login name or account name to Slack mention format.
 
 ```bash
-$ envchain wtd bin/slack-mention-converter to-slack-mention dtan4
+$ slack-mention-converter to-slack-mention dtan4
 <@U02XXXXXX|dai>
 ```
 
