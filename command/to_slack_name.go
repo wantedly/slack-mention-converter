@@ -15,12 +15,12 @@ type ToSlackNameCommand struct {
 
 func (c *ToSlackNameCommand) Run(args []string) int {
 	var loginName string
-	if len(args) == 1 {
-		loginName = args[0]
-	} else {
+	if len(args) != 1 {
 		log.Println(c.Help())
 		return 1
 	}
+
+	loginName = args[0]
 
 	var s store.Store
 
