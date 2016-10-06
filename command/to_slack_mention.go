@@ -31,8 +31,8 @@ func (c *ToSlackMentionCommand) Run(args []string) int {
 
 	user, err := service.GetUser(s, loginName)
 	if err != nil {
-		slackName = loginName
 		log.Printf("Login name '%v' not found. Treat it as slack name\n", loginName)
+		log.Printf("Error: %v\n", err)
 		return 1
 	}
 
