@@ -2,6 +2,12 @@
 
 [![Build Status](https://travis-ci.org/wantedly/slack-mention-converter.svg?branch=master)](https://travis-ci.org/wantedly/slack-mention-converter)
 
+This project is no longer actively maintained by Wantedly, Inc.
+Newly developed [developers-account-mapper](https://github.com/wantedly/developers-account-mapper) covers any feature on this project.
+Please consider using this.
+
+## Summary
+
 Convert login name or account name to Slack mention format.
 
 ```bash
