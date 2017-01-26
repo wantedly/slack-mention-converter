@@ -4,7 +4,7 @@
 
 ## DEPRECATED
 
-This project is *no longer* actively maintained by Wantedly, Inc.
+This project is **no longer** actively maintained by Wantedly, Inc.
 Newly developed [developers-account-mapper](https://github.com/wantedly/developers-account-mapper) covers almost all features on this project.
 Please consider using this.
 
