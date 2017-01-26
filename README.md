@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/wantedly/slack-mention-converter.svg?branch=master)](https://travis-ci.org/wantedly/slack-mention-converter)
 
-This project is no longer actively maintained by Wantedly, Inc.
+## DEPRECATED
+
+This project is *no longer* actively maintained by Wantedly, Inc.
 Newly developed [developers-account-mapper](https://github.com/wantedly/developers-account-mapper) covers almost all features on this project.
 Please consider using this.
 
